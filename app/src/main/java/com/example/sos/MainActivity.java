@@ -24,25 +24,18 @@ public class MainActivity extends AppCompatActivity {
         mDriver = findViewById(R.id.driver);
         mCustomer = findViewById(R.id.customer);
 
-        // Check for location permissions
         checkLocationPermission();
 
-        mDriver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DriverLoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        mDriver.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, DriverLoginActivity.class);
+            startActivity(intent);
+            finish();
         });
 
-        mCustomer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CustomerLoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        mCustomer.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CustomerLoginActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -52,25 +45,18 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_LOCATION);
-        } else {
-            // Permission already granted, you can access location here
-            Toast.makeText(this, "Location permission granted", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission granted, you can access location here
-                    Toast.makeText(this, "Location permission granted", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Permission denied
-                    Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
-                }
-                break;
+        if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Location permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
